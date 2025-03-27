@@ -37,6 +37,26 @@ namespace _2_14fi_hunger_games
         int ehsegSzazalek = 100;
         string kolbaszContent = "Kolbász";
         int money = 1000;
+        string hamburgerContent = "Hamburger";
+        public string HamburgerContent
+        {
+            get
+            {
+                return hamburgerContent;
+            }
+            set
+            {                
+                if (value.ToLower() == "csokken")
+                {
+                    hamburgerContent = hamburgerContent.Substring(0, hamburgerContent.Length - 1);
+                    if (EhsegSzazalek >= 7)
+                    {
+                        EhsegSzazalek -= 7;
+                    }
+                }
+                OnPropertyChanged("HamburgerContent");
+            }
+        }
         public string KolbaszContent
         {
             get
@@ -48,10 +68,20 @@ namespace _2_14fi_hunger_games
                 if(value.ToLower() == "csokken")
                 {
                     kolbaszContent = kolbaszContent.Substring(0, kolbaszContent.Length - 1);
+                    if (EhsegSzazalek >= 5)
+                    {
+                        EhsegSzazalek -= 5;
+                    }
                 }
                 else if(value.ToLower() == "ujratolt")
                 {
                     kolbaszContent = "Kolbász";
+                    EhsegSzazalek += 20;
+                    if (EhsegSzazalek > 100)
+                    {
+                        MessageBox.Show("Éhen haltál!");
+                        this.Close();
+                    }
                 }
                 OnPropertyChanged("KolbaszContent");
             }
@@ -90,7 +120,7 @@ namespace _2_14fi_hunger_games
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;   //  ChatGPT
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public void OnPropertyChanged(string propertyName)
         {
@@ -107,23 +137,31 @@ namespace _2_14fi_hunger_games
         }
         void KetchupClick(object s, EventArgs e)
         {
-            if (money >= 10)
+            Vasarlas("kolbász", 10);
+        }
+        void KrumpliClick(object s, EventArgs e)
+        {
+            Vasarlas("hamburger", 20);
+        }
+        void Vasarlas(string mit, int mennyi)
+        {
+            if(Money - mennyi >= 0)
             {
-                //string content = kolbasz.Content.ToString();
-                if (KolbaszContent.Length > 0)
+                if(mit.ToLower() == "kolbász")
                 {
-                    //kolbasz.Content = content.Substring(0, content.Length - 1);
-                    //int ehsegSzazalek = int.Parse(ehseg.Content.ToString().Trim('%'));
-                    KolbaszContent = "csokken";
-                    if (ehsegSzazalek >= 5)
+                    if(KolbaszContent.Length > 0)
                     {
-                        EhsegSzazalek -= 5;
-                        //ehseg.Content = (ehsegSzazalek - 5).ToString() + '%';
+                        KolbaszContent = "csokken";
+                        Money -= mennyi;
                     }
-                    //EhsegBackground();
-                    //money -= 10;
-                    //moneyInput.Text = money.ToString();
-                    Money -= 10;
+                }
+                else if(mit.ToLower() == "hamburger")
+                {
+                    if(HamburgerContent.Length > 0)
+                    {
+                        HamburgerContent = "csokken";
+                        Money -= mennyi;
+                    }
                 }
             }
         }
@@ -134,40 +172,15 @@ namespace _2_14fi_hunger_games
         void DisznoClick(object s, EventArgs e)
         {
             KolbaszContent = "ujratolt";
-            //kolbasz.Content = "Kolbász";
-            //int ehsegSzazalek = int.Parse(ehseg.Content.ToString().Trim('%'));
-            //ehseg.Content = (ehsegSzazalek + 20) + "%";
-            EhsegSzazalek += 20;
-            if (EhsegSzazalek > 100)
-            {
-                MessageBox.Show("Éhen haltál!");
-                this.Close();
-            }
-            //EhsegBackground();
         }
-        //
-        //  Ez a függvény feleslegessé válik, az EhsegSzazalek függvény miatt
-        //
-        /*void EhsegBackground()
-        {
-            int ehsegSzazalek = int.Parse(ehseg.Content.ToString().Trim('%'));
-            if (ehsegSzazalek > 70)
-                ehseg.Background = new SolidColorBrush(Colors.Red);
-            else if (ehsegSzazalek > 40)
-                ehseg.Background = new SolidColorBrush(Colors.Orange);
-            else
-                ehseg.Background = new SolidColorBrush(Colors.Green);
-        }*/
         void ImHungryClick(object s, EventArgs e)
         {
             Namee = nevInput.Text;
         }
         void MoneyClick(object s, EventArgs e)
         {
-            Money = int.Parse(moneyInput.Text.ToString());
-            //money = int.Parse(moneyInput.Text.ToString());
-            //moneyInput.IsEnabled = false;
-            //moneyButton.Click -= MoneyClick;
+            moneyInput.IsEnabled = false;
+            moneyButton.Click -= MoneyClick;
         }
     }
 }
