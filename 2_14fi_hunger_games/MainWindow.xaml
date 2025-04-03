@@ -34,6 +34,9 @@
         <Button Grid.Row="2" Grid.Column="0" Click="NameChange" Content="Névváltoztatás"/>
         <Button Grid.Row="4" Grid.Column="2" Content="{Binding HamburgerContent}"/>
         <Button Grid.Row="3" Grid.Column="2" Background="DarkGoldenrod" Content="Sültkrumpli" Click="KrumpliClick"/>
-
+        <Button Grid.Row="4" Grid.Column="1" Content="{Binding HotdogContent}"/>
+        <Button Grid.Row="3" Grid.Column="1" Background="Goldenrod" Content="Mustár" Click="MustarClick"/>
+        <Button Grid.Row="4" Grid.Column="0" Content="{Binding PizzaContent}"/>
+        <Button Grid.Row="3" Grid.Column="0" Background="Brown" Content="Sültkrumpli" Click="PizzaClick"/>
     </Grid>
 </Window>

@@ -38,6 +38,8 @@ namespace _2_14fi_hunger_games
         string kolbaszContent = "Kolbász";
         int money = 1000;
         string hamburgerContent = "Hamburger";
+        string hotdogContent = "Hotdog";
+        string pizzaContent = "Pizza";
         public string HamburgerContent
         {
             get
@@ -49,12 +51,41 @@ namespace _2_14fi_hunger_games
                 if (value.ToLower() == "csokken")
                 {
                     hamburgerContent = hamburgerContent.Substring(0, hamburgerContent.Length - 1);
-                    if (EhsegSzazalek >= 7)
-                    {
-                        EhsegSzazalek -= 7;
-                    }
+                    EhsegSzazalek -= 7;
                 }
                 OnPropertyChanged("HamburgerContent");
+            }
+        }
+        public string HotdogContent
+        {
+            get
+            {
+                return hotdogContent;
+            }
+            set
+            {
+                if (value.ToLower() == "csokken")
+                {
+                    hotdogContent = hotdogContent.Substring(0, hotdogContent.Length - 1);
+                    EhsegSzazalek -= 4;
+                }
+                OnPropertyChanged("HotdogContent");
+            }
+        }
+        public string PizzaContent
+        {
+            get
+            {
+                return pizzaContent;
+            }
+            set
+            {
+                if (value.ToLower() == "csokken")
+                {
+                    pizzaContent = pizzaContent.Substring(0, pizzaContent.Length - 1);
+                    EhsegSzazalek -= 12;
+                }
+                OnPropertyChanged("PizzaContent");
             }
         }
         public string KolbaszContent
@@ -68,10 +99,7 @@ namespace _2_14fi_hunger_games
                 if(value.ToLower() == "csokken")
                 {
                     kolbaszContent = kolbaszContent.Substring(0, kolbaszContent.Length - 1);
-                    if (EhsegSzazalek >= 5)
-                    {
-                        EhsegSzazalek -= 5;
-                    }
+                    EhsegSzazalek -= 5;
                 }
                 else if(value.ToLower() == "ujratolt")
                 {
@@ -94,7 +122,10 @@ namespace _2_14fi_hunger_games
             }
             set
             {
-                ehsegSzazalek = value;
+                if (value < 0)
+                    ehsegSzazalek = 0;
+                else
+                    ehsegSzazalek = value;
 
                 if (ehsegSzazalek > 70)
                     ehseg.Background = new SolidColorBrush(Colors.Red);
@@ -143,9 +174,17 @@ namespace _2_14fi_hunger_games
         {
             Vasarlas("hamburger", 20);
         }
+        void MustarClick(object s, EventArgs e)
+        {
+            Vasarlas("hotdog", 8);
+        }
+        void PizzaClick(object s, EventArgs e)
+        {
+            Vasarlas("pizza", 28);
+        }
         void Vasarlas(string mit, int mennyi)
         {
-            if(Money - mennyi >= 0)
+            if(Money - mennyi >= 0 && ehsegSzazalek > 0)
             {
                 if(mit.ToLower() == "kolbász")
                 {
@@ -160,6 +199,22 @@ namespace _2_14fi_hunger_games
                     if(HamburgerContent.Length > 0)
                     {
                         HamburgerContent = "csokken";
+                        Money -= mennyi;
+                    }
+                }
+                else if (mit.ToLower() == "hotdog")
+                {
+                    if (HotdogContent.Length > 0)
+                    {
+                        HotdogContent = "csokken";
+                        Money -= mennyi;
+                    }
+                }
+                else if (mit.ToLower() == "pizza")
+                {
+                    if (PizzaContent.Length > 0)
+                    {
+                        PizzaContent = "csokken";
                         Money -= mennyi;
                     }
                 }
